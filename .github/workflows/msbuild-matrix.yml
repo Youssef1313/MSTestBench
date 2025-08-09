@@ -1,0 +1,33 @@
+name: MSTestBench Matrix Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-matrix:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        test_scenario:
+          - SingleClass10KTests
+          - SingleClass1KTests
+          - ThousandClass200Tests
+          - HundredClass2000Tests
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9 preview
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Build dependencies
+        run: dotnet build MSTestBench/MSTestBench.csproj -p:TestScenario=${{ matrix.test_scenario }}
+
+      - name: Run with TestScenario
+        run: |
+          ./MSTestBench/bin/Debug/net9.0/MSTestBench.exe
