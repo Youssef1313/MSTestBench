@@ -5,10 +5,10 @@
     <EnableMSTestRunner>true</EnableMSTestRunner>
     <OutputType>Exe</OutputType>
     <LangVersion>preview</LangVersion>
-    <DefineConstants Condition="'$(TestScenario)'=='SingleClass10KTests'">$(SINGLE_CLASS_10K_TESTS)</DefineConstants>
-    <DefineConstants Condition="'$(TestScenario)'=='SingleClass1KTests'">$(SINGLE_CLASS_1K_TESTS)</DefineConstants>
-    <DefineConstants Condition="'$(TestScenario)'=='ThousandClass200Tests'">$(THOUSAND_CLASS_200_TESTS)</DefineConstants>
-    <DefineConstants Condition="'$(TestScenario)'=='HundredClass2000Tests'">$(HUNDRED_CLASS_2000_TESTS)</DefineConstants>
+    <DefineConstants Condition="'$(TestScenario)'=='SingleClass10KTests'">SINGLE_CLASS_10K_TESTS</DefineConstants>
+    <DefineConstants Condition="'$(TestScenario)'=='SingleClass1KTests'">SINGLE_CLASS_1K_TESTS</DefineConstants>
+    <DefineConstants Condition="'$(TestScenario)'=='ThousandClass200Tests'">THOUSAND_CLASS_200_TESTS</DefineConstants>
+    <DefineConstants Condition="'$(TestScenario)'=='HundredClass2000Tests'">HUNDRED_CLASS_2000_TESTS</DefineConstants>
     <MSTestVersion Condition="'$(MSTestVersion)'==''">3.10.1</MSTestVersion>
   </PropertyGroup>
 
