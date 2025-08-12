@@ -1,0 +1,24 @@
+name: MSTestBench with BenchmarkDotNet
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9 preview
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Build dependencies
+        run: dotnet build MSTestBench/MSTestBench.csproj
+
+      - name: Run with TestScenario
+        run: |
+          dotnet run --project MSTestBench/MSTestBench.csproj --no-build
