@@ -1,4 +1,4 @@
-name: MSTestBench with BenchmarkDotNet
+name: 'MSTestBench with BenchmarkDotNet'
 
 on:
   push:
@@ -7,6 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
+  BDN:
+    runs-on: windows-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
