@@ -11,13 +11,14 @@
     <DefineConstants Condition="'$(TestScenario)'=='SingleClass1KTests'">SINGLE_CLASS_1K_TESTS</DefineConstants>
     <DefineConstants Condition="'$(TestScenario)'=='ThousandClass200Tests'">THOUSAND_CLASS_200_TESTS</DefineConstants>
     <DefineConstants Condition="'$(TestScenario)'=='HundredClass2000Tests'">HUNDRED_CLASS_2000_TESTS</DefineConstants>
+	<DefineConstants Condition="'$(TestScenario)'=='ThousandClass200Tests100ms'">THOUSANDCLASS200TESTS_DELAY_100MS</DefineConstants>
+	<DefineConstants Condition="'$(TestScenario)'=='ThousandClass200Tests100ms1MB'">THOUSANDCLASS200TESTS_DELAY_100MS_1MB</DefineConstants>
     <MSTestVersion Condition="'$(MSTestVersion)'==''">3.8.3</MSTestVersion>
 	<GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSTest.TestFramework" Version="$(MSTestVersion)" />
-    <PackageReference Include="MSTest.TestAdapter" Version="$(MSTestVersion)" />
+    <PackageReference Include="MSTest" Version="$(MSTestVersion)" />
     <PackageReference Include="BenchmarkDotNet" Version="0.15.2" />
   </ItemGroup>
 

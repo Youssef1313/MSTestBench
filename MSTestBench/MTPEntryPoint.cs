@@ -6,7 +6,7 @@ namespace MSTestBench;
 [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public sealed class MicrosoftTestingPlatformEntryPoint
 {
-    public static async global::System.Threading.Tasks.Task<int> Main(string[] args)
+    public static async global::System.Threading.Tasks.Task<int> EntryPoint(string[] args)
     {
         global::Microsoft.Testing.Platform.Builder.ITestApplicationBuilder builder = await global::Microsoft.Testing.Platform.Builder.TestApplication.CreateBuilderAsync(args);
         // SelfRegisteredExtensions.AddSelfRegisteredExtensions(builder, args);
