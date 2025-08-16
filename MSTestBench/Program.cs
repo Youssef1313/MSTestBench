@@ -83,10 +83,11 @@ public class Bench
                 .WithIterationCount(10) // only 10 interations
                 .WithLaunchCount(1); // launch a test only once
             var jobs = new List<Job>();
-            foreach (var version in (ReadOnlySpan<string>)["3.11.0-preview.25415.6", "4.0.0-preview.25358.7", "4.0.0-preview.25415.9"])
+            // IMPORTANT: Don't try to mix 3.x and 4.x
+            // BDN won't handle it correctly because of the assembly rename. It will use whatever version in MSTestBench.csproj when running 4.x.
+            foreach (var version in (ReadOnlySpan<string>)["3.11.0-preview.25408.2", "3.11.0-preview.25415.6"])
             {
-                //foreach (var testScenario in (ReadOnlySpan<string>)["SingleClass10KTests", "ThousandClass200Tests", "HundredClass2000Tests"])
-                var testScenario = "SingleClass10KTests";
+                foreach (var testScenario in (ReadOnlySpan<string>)["SingleClass10KTests", "ThousandClass200Tests", "HundredClass2000Tests"])
                 {
                     var currentJob = job
                         .WithNuGet("MSTest", version)
