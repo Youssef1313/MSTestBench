@@ -79,7 +79,8 @@ public class Bench
     {
         public Config()
         {
-            AddJob(CreateMSTestComparisonJobs());
+            // AddJob(CreateMSTestComparisonJobs());
+            AddJob(CreateMSTestVsXUnitComparisonJobs());
 
             // add the percentage column
             SummaryStyle =
@@ -130,7 +131,7 @@ public class Bench
             foreach (var testScenario in (ReadOnlySpan<string>)["SingleClass10KTests", "ThousandClass200Tests", "HundredClass2000Tests"])
             {
                 jobs.Add(job
-                    .WithNuGet("MSTest", "3.11.0-preview.25415.6")
+                    .WithNuGet("MSTest", "4.0.0-preview.25428.1")
                     .WithCustomBuildConfiguration("Debug")
                     .WithArguments([new MsBuildArgument($"/p:TestScenario={testScenario}")])
                     .WithId($"{testScenario}-MSTest"));
