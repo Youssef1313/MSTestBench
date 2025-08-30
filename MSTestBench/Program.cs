@@ -69,6 +69,8 @@ internal static class TestScenarioGenerator
     }
 }
 
+#pragma warning disable IDE0051
+
 [Config(typeof(Config))]
 [MemoryDiagnoser]
 public class Bench
@@ -77,22 +79,32 @@ public class Bench
     {
         public Config()
         {
+            AddJob(CreateMSTestComparisonJobs());
+
+            // add the percentage column
+            SummaryStyle =
+                BenchmarkDotNet.Reports.SummaryStyle.Default
+                .WithRatioStyle(BenchmarkDotNet.Columns.RatioStyle.Percentage);
+            this.HideColumns("Arguments", "NuGetReferences", "Method");
+            Options |= ConfigOptions.DisableOptimizationsValidator | ConfigOptions.GenerateMSBuildBinLog;
+        }
+
+        private static Job[] CreateMSTestComparisonJobs()
+        {
             var job = Job.Default
                 .WithStrategy(RunStrategy.Monitoring) // only monitoring
                 .WithWarmupCount(3) // light warm-up
                 .WithIterationCount(10) // only 10 interations
                 .WithLaunchCount(1); // launch a test only once
             var jobs = new List<Job>();
-            // IMPORTANT: Don't try to mix 3.x and 4.x
-            // BDN won't handle it correctly because of the assembly rename. It will use whatever version in MSTestBench.csproj when running 4.x.
-            foreach (var version in (ReadOnlySpan<string>)["3.11.0-preview.25408.2", "3.11.0-preview.25415.6"])
+
+            foreach (var version in (ReadOnlySpan<string>)["3.10.3", "3.11.0-preview.25429.7", "4.0.0-preview.25428.1"])
             {
                 foreach (var testScenario in (ReadOnlySpan<string>)["SingleClass10KTests", "ThousandClass200Tests", "HundredClass2000Tests"])
                 {
                     var currentJob = job
-                        .WithNuGet("MSTest", version)
                         .WithCustomBuildConfiguration("Debug")
-                        .WithArguments([new MsBuildArgument($"/p:TestScenario={testScenario}")])
+                        .WithArguments([new MsBuildArgument($"/p:TestScenario={testScenario}"), new MsBuildArgument($"/p:MSTestVersion={version}")])
                         .WithId($"{testScenario}-{version}");
 
                     if (testScenario.Contains("100ms"))
@@ -104,14 +116,32 @@ public class Bench
                 }
             }
 
-            AddJob(jobs.ToArray());
+            return jobs.ToArray();
+        }
 
-            // add the percentage column
-            SummaryStyle =
-                BenchmarkDotNet.Reports.SummaryStyle.Default
-                .WithRatioStyle(BenchmarkDotNet.Columns.RatioStyle.Percentage);
-            this.HideColumns("Arguments", "NuGetReferences", "Method");
-            Options |= ConfigOptions.DisableOptimizationsValidator | ConfigOptions.GenerateMSBuildBinLog;
+        private static Job[] CreateMSTestVsXUnitComparisonJobs()
+        {
+            var job = Job.Default
+                .WithStrategy(RunStrategy.Monitoring) // only monitoring
+                .WithWarmupCount(3) // light warm-up
+                .WithIterationCount(10) // only 10 interations
+                .WithLaunchCount(1); // launch a test only once
+            var jobs = new List<Job>();
+            foreach (var testScenario in (ReadOnlySpan<string>)["SingleClass10KTests", "ThousandClass200Tests", "HundredClass2000Tests"])
+            {
+                jobs.Add(job
+                    .WithNuGet("MSTest", "3.11.0-preview.25415.6")
+                    .WithCustomBuildConfiguration("Debug")
+                    .WithArguments([new MsBuildArgument($"/p:TestScenario={testScenario}")])
+                    .WithId($"{testScenario}-MSTest"));
+
+                jobs.Add(job
+                    .WithCustomBuildConfiguration("Debug")
+                    .WithArguments([new MsBuildArgument($"/p:TestScenario={testScenario}"), new MsBuildArgument($"/p:IsXUnit=true")])
+                    .WithId($"{testScenario}-XUnit"));
+            }
+
+            return jobs.ToArray();
         }
     }
 
