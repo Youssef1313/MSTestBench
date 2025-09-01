@@ -11,6 +11,7 @@
     <DefineConstants Condition="'$(TestScenario)'=='SingleClass1KTests'">$(DefineConstants);SINGLE_CLASS_1K_TESTS</DefineConstants>
     <DefineConstants Condition="'$(TestScenario)'=='ThousandClass200Tests'">$(DefineConstants);THOUSAND_CLASS_200_TESTS</DefineConstants>
     <DefineConstants Condition="'$(TestScenario)'=='HundredClass2000Tests'">$(DefineConstants);HUNDRED_CLASS_2000_TESTS</DefineConstants>
+    <DefineConstants Condition="'$(TestScenario)'=='TwentyClass10kTests'">$(DefineConstants);TWENTYCLASS10KTESTS</DefineConstants>
 	<DefineConstants Condition="'$(TestScenario)'=='ThousandClass200Tests100ms'">$(DefineConstants);THOUSANDCLASS200TESTS_DELAY_100MS</DefineConstants>
 	<DefineConstants Condition="'$(TestScenario)'=='ThousandClass200Tests100ms1MB'">$(DefineConstants);THOUSANDCLASS200TESTS_DELAY_100MS_1MB</DefineConstants>
 	<DefineConstants Condition="'$(IsXUnit)'=='true'">$(DefineConstants);IS_XUNIT</DefineConstants>
@@ -20,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="MSTest" Version="$(MSTestVersion)" Condition="'$(IsXUnit)'!='true'" />
-	<PackageReference Include="xunit.v3" Version="3.0.0" Condition="'$(IsXUnit)'=='true'" />
+	<PackageReference Include="xunit.v3" Version="3.0.1" Condition="'$(IsXUnit)'=='true'" />
     <PackageReference Include="BenchmarkDotNet" Version="0.15.2" />
   </ItemGroup>
 

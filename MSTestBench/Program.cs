@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 //TestScenarioGenerator.GenerateTestScenario(
 //    "C:\\Users\\ygerges\\source\\repos\\MSTestBench\\MSTestBench\\",
-//    "ThousandClass200Tests_Delay_100ms_1MB",
-//    numberOfTestClasses: 1000,
-//    numberOfTestMethodsPerClass: 200,
-//    sleepMSInEachTestMethod: 200,
-//    bytesAllocatedInEachTestMethod: 1000);
+//    "TwentyClass10kTests",
+//    numberOfTestClasses: 20,
+//    numberOfTestMethodsPerClass: 10000,
+//    sleepMSInEachTestMethod: 0,
+//    bytesAllocatedInEachTestMethod: 0);
 BenchmarkRunner.Run<Bench>();
 
 internal static class TestScenarioGenerator
@@ -79,8 +79,8 @@ public class Bench
     {
         public Config()
         {
-            // AddJob(CreateMSTestComparisonJobs());
-            AddJob(CreateMSTestVsXUnitComparisonJobs());
+            AddJob(CreateMSTestComparisonJobs());
+            // AddJob(CreateMSTestVsXUnitComparisonJobs());
 
             // add the percentage column
             SummaryStyle =
@@ -101,7 +101,7 @@ public class Bench
 
             foreach (var version in (ReadOnlySpan<string>)["3.10.3", "3.11.0-preview.25429.7", "4.0.0-preview.25428.1"])
             {
-                foreach (var testScenario in (ReadOnlySpan<string>)["SingleClass10KTests", "ThousandClass200Tests", "HundredClass2000Tests"])
+                foreach (var testScenario in (ReadOnlySpan<string>)["TwentyClass10kTests", "ThousandClass200Tests", "HundredClass2000Tests"])
                 {
                     var currentJob = job
                         .WithCustomBuildConfiguration("Debug")
